@@ -1,5 +1,7 @@
 package tech.soulcoder.zzb;
 
+import com.alibaba.fastjson.JSON;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -11,10 +13,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import tech.soulcoder.StringUtil;
+import tech.soulcoder.model.zzb.CutoffScoreModel;
 import tech.soulcoder.model.zzb.SchoolModel;
 import tech.soulcoder.model.zzb.SubjectCodeModel;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,9 +43,22 @@ public class ExcelTool {
     private static final Logger logger = LoggerFactory.getLogger(ExcelTool.class);
 
     @Value("${localFilePath}")
-    private String path;
+    private String path = "/Users/admin/www/data/";
+    /**
+     * 学校信息
+     */
     private String excelPathSchool = "school.xlsx";
+
+    /**
+     * 专业信息
+     */
     private String excelPathSub = "p.xlsx";
+
+    /**
+     * 每年分数线的数据
+     */
+    private String cutoffScore = "fenshuxian.xlsx";
+
     private Map<String, List<SubjectCodeModel>> allsubjectCode;
     /**
      * 一个三级类目 对应的 所有学校
@@ -233,6 +250,7 @@ public class ExcelTool {
         }
         return allsubjectCode;
     }
+
     public Map<String, List<SchoolModel>> getAll() throws Exception {
         if (this.all == null) {
             all = this.readExcelSchool();
@@ -240,8 +258,45 @@ public class ExcelTool {
         return all;
     }
 
+    public List<CutoffScoreModel> readExcelCutoffScore() throws Exception {
+        File excelP = new File(path + cutoffScore);
+        Workbook wb = new XSSFWorkbook(excelP);
+        Sheet sheet = wb.getSheetAt(0);
+        int firstRowIndex = sheet.getFirstRowNum();
+        int lastRowIndex = sheet.getLastRowNum();
+        Row row;
+        List<CutoffScoreModel> res = new ArrayList<>();
+        CutoffScoreModel temp;
+        for (int rIndex = firstRowIndex; rIndex <= lastRowIndex; rIndex++) {
+            row = sheet.getRow(rIndex);
+            temp = new CutoffScoreModel();
+            temp.setType(row.getCell(0).toString().replace(" ", "").replace("类", ""));
+            temp.setSchoolCode(row.getCell(1).toString().replace(" ", "").replace(".0", ""));
+            temp.setSchoolName(row.getCell(2).toString().replace(" ", ""));
+            temp.setSubjectCode(row.getCell(3).toString().replace(" ", "").replace(".0", ""));
+            temp.setSubjectName(row.getCell(4).toString().replace(" ", ""));
+            temp.setCutoffScore(row.getCell(5).toString().replace(" ", "").replace(".0", ""));
+            temp.setYear(row.getCell(6).toString().replace(".0", ""));
+            res.add(temp);
+        }
 
-    public static void main(String[] args) {
+        return res;
+    }
+
+    public List<CutoffScoreModel> getCutoffScore() throws Exception {
+        List<CutoffScoreModel> list = this.readExcelCutoffScore();
+        // 按照学校维度拆分
+        //Map<String, >
+
+        return null;
+    }
+
+
+    public static void main(String[] args) throws Exception {
+        ExcelTool excelTool = new ExcelTool();
+        System.out.println(JSON.toJSONString(excelTool.getCutoffScore()));
+
+
 //        try {
 //            FileWriter writer = new FileWriter("test.json");
 //            Gson gson = new Gson();

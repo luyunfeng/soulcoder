@@ -35,6 +35,10 @@ public class MyBatisConfigSoul {
     private final PageInterceptor pageHelper;
 
     @Autowired
+    @Qualifier("druidDataSourceQbank")
+    private DataSource druidDataSourceQbank;
+
+    @Autowired
     public MyBatisConfigSoul(@Qualifier("druidDataSourceSoul") DataSource druidDataSourceSoul, PageInterceptor pageHelper) {
         this.druidDataSourceSoul = druidDataSourceSoul;
         this.pageHelper = pageHelper;
@@ -45,6 +49,33 @@ public class MyBatisConfigSoul {
 
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(druidDataSourceSoul);
+        sqlSessionFactoryBean.setPlugins(new Interceptor[]{pageHelper});
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        sqlSessionFactoryBean.setMapperLocations(
+                resolver.getResources("classpath*:mapper/**/*.xml"));
+
+        SqlSessionFactory sqlSessionFactory = null;
+        try {
+            sqlSessionFactory = sqlSessionFactoryBean.getObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+        org.apache.ibatis.session.Configuration configuration = sqlSessionFactory.getConfiguration();
+        configuration.setMapUnderscoreToCamelCase(true);
+        return sqlSessionFactoryBean.getObject();
+    }
+
+    /**
+     * Qbank 的 sqlSessionFactory
+     * @return
+     * @throws Exception
+     */
+    @Bean("sqlSessionFactoryQbank")
+    public SqlSessionFactory sqlSessionFactoryQbank() throws Exception {
+
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        sqlSessionFactoryBean.setDataSource(druidDataSourceQbank);
         sqlSessionFactoryBean.setPlugins(new Interceptor[]{pageHelper});
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         sqlSessionFactoryBean.setMapperLocations(
