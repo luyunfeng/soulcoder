@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import tech.soulcoder.model.zzb.CutoffScoreModel;
 import tech.soulcoder.model.zzb.SchoolModel;
 import tech.soulcoder.model.zzb.SubjectCodeModel;
 import tech.soulcoder.service.ZzbService;
@@ -74,5 +75,30 @@ public class ZzbController {
         }
         return null;
     }
+
+    @ApiOperation(value = "学校维度，同一个学校不同专业的分数线", notes = "用来制作折线图")
+    @GetMapping("/getSchoolScore")
+    public Map<String, List<CutoffScoreModel>> getSchoolScore() {
+        try {
+            return excelTool.getSchoolScore();
+        } catch (Exception e) {
+            logger.error("系统异常", e);
+        }
+        return null;
+    }
+
+    @ApiOperation(value = "专业维度，不同学校，相同专业分数线", notes = "用来制作折线图")
+    @GetMapping("/getSubjectScore")
+    public Map<String, List<CutoffScoreModel>> getSubjectScore() {
+        try {
+            return excelTool.getSubjectScore();
+        } catch (Exception e) {
+            logger.error("系统异常", e);
+        }
+        return null;
+    }
+
+
+
 
 }

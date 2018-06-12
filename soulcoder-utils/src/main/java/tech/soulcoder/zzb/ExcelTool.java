@@ -1,7 +1,6 @@
 package tech.soulcoder.zzb;
 
 import com.alibaba.fastjson.JSON;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -18,7 +17,6 @@ import tech.soulcoder.model.zzb.SchoolModel;
 import tech.soulcoder.model.zzb.SubjectCodeModel;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +62,35 @@ public class ExcelTool {
      * 一个三级类目 对应的 所有学校
      */
     private Map<String, List<SchoolModel>> all;
+
+    // 按照学校维度拆分
+    public Map<String, List<CutoffScoreModel>> schoolScore = new HashMap<>();
+
+
+    // 按照专业角度拆分
+    public Map<String, List<CutoffScoreModel>> subjectScore = new HashMap<>();
+
+    public Map<String, List<CutoffScoreModel>> getSchoolScore() {
+        if (schoolScore == null) {
+            try {
+                this.initCutoffScore();
+            } catch (Exception e) {
+                logger.error("初始化数据失败....", e);
+            }
+        }
+        return schoolScore;
+    }
+
+    public Map<String, List<CutoffScoreModel>> getSubjectScore() {
+        if (schoolScore == null) {
+            try {
+                this.initCutoffScore();
+            } catch (Exception e) {
+                logger.error("初始化数据失败....", e);
+            }
+        }
+        return subjectScore;
+    }
 
     /**
      * 读取学科表
@@ -283,18 +310,35 @@ public class ExcelTool {
         return res;
     }
 
-    public List<CutoffScoreModel> getCutoffScore() throws Exception {
+    /**
+     * 初始化 分数
+     *
+     * @throws Exception
+     */
+    public void initCutoffScore() throws Exception {
         List<CutoffScoreModel> list = this.readExcelCutoffScore();
-        // 按照学校维度拆分
-        //Map<String, >
 
-        return null;
+        for (CutoffScoreModel model : list) {
+            List<CutoffScoreModel> temp = schoolScore.get(model.getSchoolName());
+            if (temp == null) {
+                temp = new ArrayList<>();
+            }
+            temp.add(model);
+            schoolScore.put(model.getSchoolName(), temp);
+            //////////////
+            List<CutoffScoreModel> temp2 = subjectScore.get(model.getSubjectName());
+            if (temp2 == null) {
+                temp = new ArrayList<>();
+            }
+            temp2.add(model);
+            subjectScore.put(model.getSubjectName(), temp2);
+        }
     }
 
 
     public static void main(String[] args) throws Exception {
         ExcelTool excelTool = new ExcelTool();
-        System.out.println(JSON.toJSONString(excelTool.getCutoffScore()));
+        //System.out.println(JSON.toJSONString(excelTool.gCutoffScore()));
 
 
 //        try {
