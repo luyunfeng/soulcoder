@@ -1,0 +1,10 @@
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+.idea
+*.iws
+*.iml
+*.ipr
+/logs
+/soulcoder-web/src/main/resources/application-dev.yml
+/soulcoder-web/src/main/resources/application-prod.yml
+.DS_Store

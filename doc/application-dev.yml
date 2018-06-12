@@ -1,0 +1,41 @@
+# 示例配置文件 在正式使用的时候copy到 /soulcoder-web/src/main/resources/ 下面
+server:
+  port: 10002
+
+#log
+logging:
+     config : classpath:logback-dev.xml
+     level:
+        org:
+          springframework:
+             web : INFO
+
+spring:
+   datasource:
+      soul:
+        url : jdbc:mysql://127.0.0.1:3306/soulcoder?autoReconnect=true&useCompression=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        username : lala
+        password : lalala
+        initialSize : 5
+        maxActive : 20
+        minIdle : 1
+        maxWait : 30000
+        timeBetweenEvictionRunsMillis : 60000
+        minEvictableIdleTimeMillis : 300000
+        poolPreparedStatements : true
+        maxPoolPreparedStatementPerConnectionSize : 20
+        filters : stat, wall, config
+   redis:
+      database : 0
+      host : 127.0.0.1
+      port : 6379
+      password : 123
+      timeout : 5000
+      pool :
+          max-active : 8
+      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          max-wait : -1
+      # 连接池中的最大空闲连接
+          max-idle : 8
+      # 连接池中的最小空闲连接
+          min-idle : 0
