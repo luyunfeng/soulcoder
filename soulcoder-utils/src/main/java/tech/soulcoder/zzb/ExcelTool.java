@@ -57,18 +57,22 @@ public class ExcelTool {
      */
     private String cutoffScore = "fenshuxian.xlsx";
 
-    private Map<String, List<SubjectCodeModel>> allsubjectCode;
+    private Map<String, List<SubjectCodeModel>> allSubjectCode;
     /**
      * 一个三级类目 对应的 所有学校
      */
     private Map<String, List<SchoolModel>> all;
 
-    // 按照学校维度拆分
-    public Map<String, List<CutoffScoreModel>> schoolScore = new HashMap<>();
 
+    /**
+     * 按照学校维度拆分
+     */
+    private Map<String, List<CutoffScoreModel>> schoolScore = new HashMap<>();
 
-    // 按照专业角度拆分
-    public Map<String, List<CutoffScoreModel>> subjectScore = new HashMap<>();
+    /**
+     * 按照专业角度拆分
+     */
+    private Map<String, List<CutoffScoreModel>> subjectScore = new HashMap<>();
 
     public Map<String, List<CutoffScoreModel>> getSchoolScore() {
         if (schoolScore == null || schoolScore.size() == 0) {
@@ -272,10 +276,10 @@ public class ExcelTool {
     }
 
     public Map<String, List<SubjectCodeModel>> getAllsubjectCode() throws Exception {
-        if (allsubjectCode == null) {
-            allsubjectCode = this.readExcelSub();
+        if (allSubjectCode == null) {
+            allSubjectCode = this.readExcelSub();
         }
-        return allsubjectCode;
+        return allSubjectCode;
     }
 
     public Map<String, List<SchoolModel>> getAll() throws Exception {
@@ -345,36 +349,8 @@ public class ExcelTool {
         ExcelTool excelTool = new ExcelTool();
         System.out.println(excelTool.getSchoolScore());
 
-        //System.out.println(JSON.toJSONString(excelTool.gCutoffScore()));
 
 
-//        try {
-//            FileWriter writer = new FileWriter("test.json");
-//            Gson gson = new Gson();
-//            Long time=System.currentTimeMillis();
-//            writer.write(gson.toJson(readExcelSchool()));
-//            Long last=System.currentTimeMillis()-time;
-//            System.out.println(last);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-
-//        // 按指定模式在字符串查找
-//        String line = "5605工程管理类";
-//        String pattern = "[A-Za-z0-9]+";
-//
-//
-//        // 创建 Pattern 对象
-//        Pattern r = Pattern.compile(pattern);
-//        // 现在创建 matcher 对象
-//        Matcher m = r.matcher(line);
-//        //if (m.find()) {
-//            System.out.println("Found value: " + m.group(0));
-////        } else {
-////            System.out.println("NO MATCH");
-////        }
 
     }
 }
