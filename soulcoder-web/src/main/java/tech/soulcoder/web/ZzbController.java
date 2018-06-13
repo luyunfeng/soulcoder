@@ -76,7 +76,7 @@ public class ZzbController {
         return null;
     }
 
-    @ApiOperation(value = "学校维度，同一个学校不同专业的分数线", notes = "用来制作折线图")
+    @ApiOperation(value = "学校维度，同一个学校不同专业的分数线", notes = "用来制作折线图",response =CutoffScoreModel.class )
     @GetMapping("/getSchoolScore")
     public Map<String, List<CutoffScoreModel>> getSchoolScore() {
         try {
@@ -87,7 +87,7 @@ public class ZzbController {
         return null;
     }
 
-    @ApiOperation(value = "专业维度，不同学校，相同专业分数线", notes = "用来制作折线图")
+    @ApiOperation(value = "专业维度，不同学校，相同专业分数线", notes = "用来制作折线图",response =CutoffScoreModel.class)
     @GetMapping("/getSubjectScore")
     public Map<String, List<CutoffScoreModel>> getSubjectScore() {
         try {

@@ -71,7 +71,7 @@ public class ExcelTool {
     public Map<String, List<CutoffScoreModel>> subjectScore = new HashMap<>();
 
     public Map<String, List<CutoffScoreModel>> getSchoolScore() {
-        if (schoolScore == null) {
+        if (schoolScore == null || schoolScore.size() == 0) {
             try {
                 this.initCutoffScore();
             } catch (Exception e) {
@@ -82,7 +82,7 @@ public class ExcelTool {
     }
 
     public Map<String, List<CutoffScoreModel>> getSubjectScore() {
-        if (schoolScore == null) {
+        if (schoolScore == null || schoolScore.size() == 0) {
             try {
                 this.initCutoffScore();
             } catch (Exception e) {
@@ -285,7 +285,13 @@ public class ExcelTool {
         return all;
     }
 
-    public List<CutoffScoreModel> readExcelCutoffScore() throws Exception {
+    /**
+     * 读取 excel 表
+     *
+     * @return
+     * @throws Exception
+     */
+    private List<CutoffScoreModel> readExcelCutoffScore() throws Exception {
         File excelP = new File(path + cutoffScore);
         Workbook wb = new XSSFWorkbook(excelP);
         Sheet sheet = wb.getSheetAt(0);
@@ -315,9 +321,8 @@ public class ExcelTool {
      *
      * @throws Exception
      */
-    public void initCutoffScore() throws Exception {
+    private void initCutoffScore() throws Exception {
         List<CutoffScoreModel> list = this.readExcelCutoffScore();
-
         for (CutoffScoreModel model : list) {
             List<CutoffScoreModel> temp = schoolScore.get(model.getSchoolName());
             if (temp == null) {
@@ -328,7 +333,7 @@ public class ExcelTool {
             //////////////
             List<CutoffScoreModel> temp2 = subjectScore.get(model.getSubjectName());
             if (temp2 == null) {
-                temp = new ArrayList<>();
+                temp2 = new ArrayList<>();
             }
             temp2.add(model);
             subjectScore.put(model.getSubjectName(), temp2);
@@ -338,6 +343,8 @@ public class ExcelTool {
 
     public static void main(String[] args) throws Exception {
         ExcelTool excelTool = new ExcelTool();
+        System.out.println(excelTool.getSchoolScore());
+
         //System.out.println(JSON.toJSONString(excelTool.gCutoffScore()));
 
 
