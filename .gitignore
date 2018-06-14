@@ -8,3 +8,4 @@
 /soulcoder-web/src/main/resources/application-dev.yml
 /soulcoder-web/src/main/resources/application-prod.yml
 .DS_Store
+*.class
