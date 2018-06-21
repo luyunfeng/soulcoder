@@ -1,20 +1,22 @@
 package tech.soulcoder.web;
 
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import tech.soulcoder.StringUtil;
+import tech.soulcoder.log.LogAuto;
 import tech.soulcoder.model.zzb.CutoffScoreModel;
 import tech.soulcoder.model.zzb.SchoolModel;
+import tech.soulcoder.model.zzb.SearchModel;
 import tech.soulcoder.model.zzb.SubjectCodeModel;
 import tech.soulcoder.service.ZzbService;
 import tech.soulcoder.zzb.ExcelTool;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +78,7 @@ public class ZzbController {
         return null;
     }
 
-    @ApiOperation(value = "学校维度，同一个学校不同专业的分数线", notes = "用来制作折线图",response =CutoffScoreModel.class )
+    @ApiOperation(value = "学校维度，同一个学校不同专业的分数线", notes = "用来制作折线图", response = CutoffScoreModel.class)
     @GetMapping("/getSchoolScore")
     public Map<String, List<CutoffScoreModel>> getSchoolScore() {
         try {
@@ -87,7 +89,7 @@ public class ZzbController {
         return null;
     }
 
-    @ApiOperation(value = "专业维度，不同学校，相同专业分数线", notes = "用来制作折线图",response =CutoffScoreModel.class)
+    @ApiOperation(value = "专业维度，不同学校，相同专业分数线", notes = "用来制作折线图", response = CutoffScoreModel.class)
     @GetMapping("/getSubjectScore")
     public Map<String, List<CutoffScoreModel>> getSubjectScore() {
         try {
@@ -98,7 +100,39 @@ public class ZzbController {
         return null;
     }
 
+    @ApiOperation(value = "根据学校名称和专业名称查询历年分数线",
+            notes = "{\n" +
+                    "\t\"schoolName\": \"扬州大学广陵学院\",\n" +
+                    "\t\"subjectName\": \"会计学\"\n" +
+                    "}",
+            response = CutoffScoreModel.class)
+    @PostMapping("/searchBySchoolNameAndSubjectName")
+    @LogAuto
+    public Map<String, String> searchBySchoolNameAndSubjectName(@RequestBody SearchModel searchModel) {
+        try {
+            if (StringUtil.isEmpty(searchModel.getSchoolName()) ||StringUtil.isEmpty(searchModel.getSubjectName())) {
+                return null;
+            }
+            List<CutoffScoreModel> list = excelTool.getSchoolScore().get(searchModel.getSchoolName());
+            if (list != null && list.size() > 0) {
+                Map<String, String> res = new HashMap<>();
+                list.forEach(p -> {
+                    if (searchModel.getSubjectName().equals(p.getSubjectName())) {
+                        // key 年份  value 分数
+                        res.put(p.getYear(), p.getCutoffScore());
+                    }
+                });
+                return res;
 
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            logger.error("系统异常", e);
+        }
+        return null;
+
+    }
 
 
 }
