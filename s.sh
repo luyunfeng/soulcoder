@@ -1,7 +1,7 @@
+source /etc/profile
 # git 拉去最新分支代码
 git pull
-git branch zzb
-source /etc/profile
+git checkout zzb
 # 拷贝配置文件到指定目录
 cp /www/wwwroot/zzb.soulcoder.tech/application.yml /www/wwwroot/zzb.soulcoder.tech/soulcoder/soulcoder-web/src/main/resources/application.yml
 cp /www/wwwroot/zzb.soulcoder.tech/application-prod.yml /www/wwwroot/zzb.soulcoder.tech/soulcoder/soulcoder-web/src/main/resources/application-prod.yml
