@@ -20,5 +20,7 @@ echo "============开始启动============="
 echo "============开始启动============="
 cd /www/wwwroot/zzb.soulcoder.tech/soulcoder/soulcoder-web/target/
 nohup java -jar -Xms258m -Xmx258m soulcoder.jar &
+echo "============启动完成============="
+
 
 
