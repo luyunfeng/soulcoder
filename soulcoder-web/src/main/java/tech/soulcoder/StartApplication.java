@@ -16,22 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @author yunfeng.lu
  * @date 2018年05月18日17:31:56
  */
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-@RestController
-@ComponentScan("tech.soulcoder.**")
 @EnableScheduling
 @EnableAspectJAutoProxy(exposeProxy=true)
-@MapperScan("tech.soulcoder.dao")
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class StartApplication {
-    private static final Logger logger = LoggerFactory.getLogger(StartApplication.class);
 
     public static void main(String[] args) {
         SpringApplication.run(StartApplication.class, args);
     }
 
-    @GetMapping("/health")
-    public String health(){
-        logger.info("健康检查");
-        return "success";
-    }
 }
