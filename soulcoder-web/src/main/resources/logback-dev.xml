@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="10 seconds">
 
-    <property name="LOG_HOME" value="/Applications/work/code/soulcoder/logs" />
+    <property name="LOG_HOME" value="/Applications/work/mycode/soulcoder/logs" />
 
     <appender name="INFO-OUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder>
