@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <properties resource="generator.properties"/>
+    <!-- classPathEntry: 设置mysql驱动路径 -->
+    <classPathEntry location="${classPath}"/>
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- jdbc连接信息 -->
+        <jdbcConnection driverClass="${jdbc_driver}"
+                        connectionURL="${jdbc_url}"
+                        userId="${jdbc_user}"
+                        password="${jdbc_password}">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!-- 生成vo对象(dto & example) -->
+        <javaModelGenerator targetPackage="tech.soulcoder.dao.pojo.generator"
+                            targetProject="soulcoder-dao/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- 用于定义SQL映射生成器的属性。(xml) -->
+        <sqlMapGenerator targetPackage="tech.soulcoder.dao.mapper.generator"
+                         targetProject="soulcoder-dao/src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!-- 生成DAO的类文件以及配置文件 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="tech.soulcoder.dao.mapper.generator"
+                             targetProject="soulcoder-dao/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!--
+            注意：在使用generatedKey的时候，会把相应column当做自增长主键来对待，生成insertSelect 方法的时候将不在生成主键对应sql。
+            例：
+                  <if test="playMethodId != null" >
+                    play_method_id,
+                  </if>
+                  这段代码将不在生成。
+        -->
+        <table tableName="soul_user" domainObjectName="SoulUserDTO" enableDeleteByPrimaryKey="true" enableDeleteByExample="true">
+
+        </table>
+
+    </context>
+
+</generatorConfiguration>
+

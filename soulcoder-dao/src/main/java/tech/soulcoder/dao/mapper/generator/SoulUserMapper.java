@@ -1,6 +1,6 @@
-package tech.soulcoder.dao.generator;
+package tech.soulcoder.dao.mapper.generator;
 
-import tech.soulcoder.pojo.generator.SoulUser;
+import tech.soulcoder.dao.pojo.generator.SoulUser;
 
 public interface SoulUserMapper {
     /**

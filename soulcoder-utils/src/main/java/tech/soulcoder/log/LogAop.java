@@ -51,12 +51,12 @@ public class LogAop {
     }
 
     @Around("@annotation(logAuto)")
-    public Object aroud(ProceedingJoinPoint pjp, LogAuto logAuto) throws Throwable {
+    public Object around(ProceedingJoinPoint pjp, LogAuto logAuto) throws Throwable {
         String requestIp = null;
         try {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             requestIp = IPUtils.getIpAddress(request);
-            //logger.info("请求 ip {}", requestIp);
+            ///logger.info("请求 ip {}", requestIp);
         } catch (Exception ex) {
             logger.error("请求 ip 获取失败");
         }

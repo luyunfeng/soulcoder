@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.soulcoder.RedisOperation;
-import tech.soulcoder.dao.generator.SoulUserMapper;
+import tech.soulcoder.dao.mapper.generator.SoulUserMapper;
 import tech.soulcoder.log.LogAuto;
 import tech.soulcoder.service.TestService;
 

@@ -1,4 +1,4 @@
-package tech.soulcoder.pojo.generator;
+package tech.soulcoder.dao.pojo.generator;
 
 /**
  *

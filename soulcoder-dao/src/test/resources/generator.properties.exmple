@@ -1,0 +1,5 @@
+classPath=/Applications/dev/maven_conf/repository/mysql/mysql-connector-java/5.1.29/mysql-connector-java-5.1.29.jar
+jdbc_driver=com.mysql.jdbc.Driver
+jdbc_url=jdbc:mysql://127.0.0.1:3306/soulcoder?autoReconnect=true&useCompression=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+jdbc_user=root
+jdbc_password=
